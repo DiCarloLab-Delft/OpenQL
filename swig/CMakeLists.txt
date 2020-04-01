@@ -1,6 +1,18 @@
 FIND_PACKAGE(SWIG REQUIRED)
 INCLUDE(${SWIG_USE_FILE})
 
+#IF(${CMAKE_VERSION} VERSION_LESS "3.12.0")
+#	FIND_PACKAGE(PythonInterp 3 REQUIRED)
+	FIND_PACKAGE(PythonInterp)
+	IF (${PYTHONINTERP_FOUND})
+	    FIND_PACKAGE(PythonLibs "${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}")
+	ENDIF()
+	INCLUDE_DIRECTORIES( ${PYTHON_INCLUDE_DIRS} )
+#ELSE()
+#	FIND_PACKAGE (Python COMPONENTS Interpreter Development)
+#	INCLUDE_DIRECTORIES( ${Python_INCLUDE_DIRS} )
+#ENDIF()
+
 INCLUDE_DIRECTORIES(
     ${LEMON_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}
@@ -29,9 +41,9 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     SWIG_LINK_LIBRARIES(openql ${LEMON_LIBRARIES} ql lexgramstatic)
     set_target_properties(_openql PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
 else ()
-    if (${CMAKE_VERSION} VERSION_LESS "3.12.0")
+#    if (${CMAKE_VERSION} VERSION_LESS "3.12.0")
         SWIG_LINK_LIBRARIES(openql ${PYTHON_LIBRARIES} ${LEMON_LIBRARIES} ql lexgramstatic)
-    else()
-        SWIG_LINK_LIBRARIES(openql ${Python_LIBRARIES} ${LEMON_LIBRARIES} ql lexgramstatic)
-    endif()
+#    else()
+#        SWIG_LINK_LIBRARIES(openql ${Python_LIBRARIES} ${LEMON_LIBRARIES} ql lexgramstatic)
+#    endif()
 endif()
