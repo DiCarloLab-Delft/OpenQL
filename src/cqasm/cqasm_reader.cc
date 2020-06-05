@@ -5,6 +5,7 @@
 #include <math.h>  //pow
 #include <stdio.h>
 #include <string>
+#include <list>
 #include <vector>
 #include "libQasm.hpp"
 #include "platform.h"
@@ -233,72 +234,17 @@ namespace ql
             add_single_bit_kernel_operation(kernel, translate_gate_type(gate_type), operation);
         }
         // FIXME: added for lack of better way to (currently) implement arbitrary rotation gates
-        // FIXME: should be removed ASAP
-        else if (gate_type == "rx0" || gate_type == "ry0" || gate_type == "rz0"|| 
-                gate_type == "rx6" || gate_type == "ry6" || gate_type == "rz6"|| 
-                gate_type == "rx12" || gate_type == "ry12" || gate_type == "rz12"|| 
-                gate_type == "rx18" || gate_type == "ry18" || gate_type == "rz18"|| 
-                gate_type == "rx24" || gate_type == "ry24" || gate_type == "rz24"|| 
-                gate_type == "rx30" || gate_type == "ry30" || gate_type == "rz30"|| 
-                gate_type == "rx36" || gate_type == "ry36" || gate_type == "rz36"|| 
-                gate_type == "rx42" || gate_type == "ry42" || gate_type == "rz42"|| 
-                gate_type == "rx45" || gate_type == "ry45" || gate_type == "rz45"|| 
-                gate_type == "rx48" || gate_type == "ry48" || gate_type == "rz48"|| 
-                gate_type == "rx54" || gate_type == "ry54" || gate_type == "rz54"|| 
-                gate_type == "rx60" || gate_type == "ry60" || gate_type == "rz60"|| 
-                gate_type == "rx66" || gate_type == "ry66" || gate_type == "rz66"|| 
-                gate_type == "rx72" || gate_type == "ry72" || gate_type == "rz72"|| 
-                gate_type == "rx78" || gate_type == "ry78" || gate_type == "rz78"|| 
-                gate_type == "rx84" || gate_type == "ry84" || gate_type == "rz84"|| 
-                gate_type == "rx90" || gate_type == "ry90" || gate_type == "rz90"|| 
-                gate_type == "rx96" || gate_type == "ry96" || gate_type == "rz96"|| 
-                gate_type == "rx102" || gate_type == "ry102" || gate_type == "rz102"|| 
-                gate_type == "rx108" || gate_type == "ry108" || gate_type == "rz108"|| 
-                gate_type == "rx114" || gate_type == "ry114" || gate_type == "rz114"|| 
-                gate_type == "rx120" || gate_type == "ry120" || gate_type == "rz120"|| 
-                gate_type == "rx126" || gate_type == "ry126" || gate_type == "rz126"|| 
-                gate_type == "rx132" || gate_type == "ry132" || gate_type == "rz132"|| 
-                gate_type == "rx138" || gate_type == "ry138" || gate_type == "rz138"|| 
-                gate_type == "rx144" || gate_type == "ry144" || gate_type == "rz144"|| 
-                gate_type == "rx150" || gate_type == "ry150" || gate_type == "rz150"|| 
-                gate_type == "rx156" || gate_type == "ry156" || gate_type == "rz156"|| 
-                gate_type == "rx162" || gate_type == "ry162" || gate_type == "rz162"|| 
-                gate_type == "rx168" || gate_type == "ry168" || gate_type == "rz168"|| 
-                gate_type == "rx174" || gate_type == "ry174" || gate_type == "rz174"|| 
-                gate_type == "rx186" || gate_type == "ry186" || gate_type == "rz186"|| 
-                gate_type == "rx192" || gate_type == "ry192" || gate_type == "rz192"|| 
-                gate_type == "rx198" || gate_type == "ry198" || gate_type == "rz198"|| 
-                gate_type == "rx204" || gate_type == "ry204" || gate_type == "rz204"|| 
-                gate_type == "rx210" || gate_type == "ry210" || gate_type == "rz210"|| 
-                gate_type == "rx216" || gate_type == "ry216" || gate_type == "rz216"|| 
-                gate_type == "rx222" || gate_type == "ry222" || gate_type == "rz222"|| 
-                gate_type == "rx228" || gate_type == "ry228" || gate_type == "rz228"|| 
-                gate_type == "rx234" || gate_type == "ry234" || gate_type == "rz234"|| 
-                gate_type == "rx240" || gate_type == "ry240" || gate_type == "rz240"|| 
-                gate_type == "rx246" || gate_type == "ry246" || gate_type == "rz246"|| 
-                gate_type == "rx252" || gate_type == "ry252" || gate_type == "rz252"|| 
-                gate_type == "rx258" || gate_type == "ry258" || gate_type == "rz258"|| 
-                gate_type == "rx264" || gate_type == "ry264" || gate_type == "rz264"|| 
-                gate_type == "rx270" || gate_type == "ry270" || gate_type == "rz270"|| 
-                gate_type == "rx276" || gate_type == "ry276" || gate_type == "rz276"|| 
-                gate_type == "rx282" || gate_type == "ry282" || gate_type == "rz282"|| 
-                gate_type == "rx288" || gate_type == "ry288" || gate_type == "rz288"|| 
-                gate_type == "rx294" || gate_type == "ry294" || gate_type == "rz294"|| 
-                gate_type == "rx300" || gate_type == "ry300" || gate_type == "rz300"|| 
-                gate_type == "rx306" || gate_type == "ry306" || gate_type == "rz306"|| 
-                gate_type == "rx312" || gate_type == "ry312" || gate_type == "rz312"|| 
-                gate_type == "rx315" || gate_type == "ry315" || gate_type == "rz315"|| 
-                gate_type == "rx318" || gate_type == "ry318" || gate_type == "rz318"|| 
-                gate_type == "rx324" || gate_type == "ry324" || gate_type == "rz324"|| 
-                gate_type == "rx330" || gate_type == "ry330" || gate_type == "rz330"|| 
-                gate_type == "rx336" || gate_type == "ry336" || gate_type == "rz336"|| 
-                gate_type == "rx342" || gate_type == "ry342" || gate_type == "rz342"|| 
-                gate_type == "rx348" || gate_type == "ry348" || gate_type == "rz348"|| 
-                gate_type == "rx354" || gate_type == "ry354" || gate_type == "rz354"|| 
-                gate_type == "rx360" || gate_type == "ry360" || gate_type == "rz360" )
+        else if (gate_type == "rx" || gate_type == "ry" || gate_type == "rz")
         {
             //add_parameterized_single_bit_kernel_operation(kernel, translate_gate_type(gate_type), operation);
-            add_single_bit_kernel_operation(kernel, translate_gate_type(gate_type), operation);
+            double angle = operation.getRotationAngle();
+            std::vector<size_t> qubits = operation.getQubitsInvolved().getSelectedQubits().getIndices();
+
+            std::string new_gate_type = gate_type + std::to_string(static_cast<int> angle);
+            for (size_t qubit : qubits)
+            {
+                kernel.gate(new_gate_type, {qubit});
+            }
         }
         else if (gate_type == "cnot" || gate_type == "cz" || gate_type == "swap")
         {
